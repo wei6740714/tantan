@@ -2,9 +2,14 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
+from lib.http import render_json
+
 
 def get_verify_code(request):
-    return HttpResponse('get_verify_code')
+
+    data={'code':1234,'name':'地一'}
+    return render_json(data)
+
 
 
 def login(request):
