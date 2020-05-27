@@ -7,7 +7,7 @@ from lib.http import render_json
 
 def get_verify_code(request):
 
-    data={'code':1234,'name':'地一'}
+    data={'code':1234,'name':'地一'};
     return render_json(data)
 
 
