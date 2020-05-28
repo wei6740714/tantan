@@ -1,3 +1,5 @@
+from datetime import datetime, date
+
 from django.db import models
 
 
@@ -12,11 +14,27 @@ class User(models.Model):
     nickname = models.CharField(max_length=32, verbose_name='呢称',unique=True)
     phonenum=models.CharField(max_length=16,verbose_name='电话',unique=True)
     sex = models.CharField(max_length=16, verbose_name='性别',choices=SEX)
-    birth_year = models.IntegerField(verbose_name='出生年')
-    birth_month = models.IntegerField(verbose_name='出生月')
-    birth_day = models.IntegerField(verbose_name='出生日')
+    birth_year = models.IntegerField(default=2000,verbose_name='出生年')
+    birth_month = models.IntegerField(default=1,verbose_name='出生月')
+    birth_day = models.IntegerField(default=1,verbose_name='出生日')
     avatar = models.CharField(max_length=256, verbose_name='形象')
     location = models.CharField(max_length=16, verbose_name='常居地')
+
+    @property
+    def age(self):
+        delta=date.today()-date(year=self.birth_year,month=self.birth_month,day=self.birth_day)
+        return delta.days//365
+
+    def to_dict(self):
+        return {
+            'nickname':self.nickname,
+            'phonenum':self.phonenum,
+            'age':self.age,
+            'sex':self.sex,
+            'avatar':self.avatar,
+            'location':self.location,
+        }
+
 
 class Profile(models.Model):
     SEX = (
