@@ -1,7 +1,7 @@
 import hashlib
 import json
 from random import randrange
-from time import time, sleep
+from time import time
 
 import requests
 from django.core.cache import cache
@@ -12,9 +12,6 @@ def gen_verify_code(length):
     '''生成验证码'''
     min_value=10**(length-1)
     max_value=10**length
-
-    sleep(5)
-
     return randrange(min_value,max_value)
 
 
@@ -46,13 +43,12 @@ def send_verify_code(phonenum):
     str_result = response.text
     json_result = json.loads(str_result)
 
-    # status, verify_code = json_result['code'],json_result['obj']
+    status, verify_code = json_result['code'],json_result['obj']
     # if not status == status_code.USER_SMS_SEND_SUCCESS:
     #     return False
     #
-    # cache.set('verify_code' + phonenum, verify_code, timeout=60*60 * 24*5)
-    sleep(5)
-    print('ok')
+    cache.set('verify_code' + phonenum, verify_code, timeout=60*60 * 24*5)
+
     return True
 
 
