@@ -1,10 +1,13 @@
-from datetime import datetime, date
+from datetime import date
 
 from django.db import models
 
 
 # Create your models here.
-class User(models.Model):
+from lib.base_model import MixinModel
+
+
+class User(models.Model,MixinModel):
     '''用户信息'''
     SEX=(
         ('男性','男性'),
@@ -25,18 +28,8 @@ class User(models.Model):
         delta=date.today()-date(year=self.birth_year,month=self.birth_month,day=self.birth_day)
         return delta.days//365
 
-    def to_dict(self):
-        return {
-            'nickname':self.nickname,
-            'phonenum':self.phonenum,
-            'age':self.age,
-            'sex':self.sex,
-            'avatar':self.avatar,
-            'location':self.location,
-        }
 
-
-class Profile(models.Model):
+class Profile(models.Model,MixinModel):
     SEX = (
         ('男性', '男性'),
         ('女性', '女性'),
