@@ -1,16 +1,14 @@
-from pprint import pprint
-from time import sleep
 
-from django.core.cache import cache
-from django.db import models
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpRequest
 
 # Create your views here.
 from common import status_code
 from lib.http import render_json
 from lib.sms import send_verify_code, check_verify_code
+from user.logic import save_avatar_to_location, save_avatar_to_remote
 from user.models import User
 from user.models.user_model import UserForm
+from worker import sendmail
 
 
 def get_verify_code(request:HttpRequest):
@@ -27,8 +25,8 @@ def login(request:HttpRequest):
     verify_code=request.POST.get('verify_code')
     print(phonenum,verify_code,'******************')
     # 短信服务成功了,这里先忽略,判断
-    # if not check_verify_code(phonenum,verify_code):
-    #     return render_json(None,status_code.USER_VERIFY_FAIL)
+    if not check_verify_code(phonenum,verify_code):
+        return render_json(None,status_code.USER_VERIFY_FAIL)
 
     default_data={
         'nickname':phonenum,
@@ -57,11 +55,18 @@ def show_profile(request):
 
 def modify_profile(request):
     '''Modify profile of user'''
-    
+
     return render_json(None)
 
 
-def upload_avatar(request):
+def upload_avatar(request:HttpRequest):
+    '''upload profile avatar'''
+    #Save image to location store
+    save_path,file_name=save_avatar_to_location(request)
+
+    #Save image to remote store
+    save_avatar_to_remote(request,save_path,file_name)
+
     return render_json(None)
 
 

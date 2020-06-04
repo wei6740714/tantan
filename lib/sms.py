@@ -1,12 +1,14 @@
 import hashlib
 import json
 from random import randrange
-from time import time
+from time import time, sleep
 
 import requests
 from django.core.cache import cache
 
 from tantan.config import WY_SMS_APPSECRET, WY_SMS_APPKEY
+from worker import call_by_worker
+
 
 def gen_verify_code(length):
     '''生成验证码'''
@@ -15,7 +17,7 @@ def gen_verify_code(length):
     return randrange(min_value,max_value)
 
 
-
+@call_by_worker
 def send_verify_code(phonenum):
     '''发送验证码'''
     # 生成验证码
@@ -56,6 +58,8 @@ def check_verify_code(phonenum,verify_code):
     cache_verify_code = cache.get('verify_code' + phonenum)
 
     return cache_verify_code == verify_code
+
+
 
 
 
