@@ -9,3 +9,5 @@ class MixinModel():
             if not name in ignore:
                 result[name]=getattr(self,name)
         return result
+
+
