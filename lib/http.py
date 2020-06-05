@@ -2,7 +2,7 @@ import json
 
 from django.http import HttpResponse
 
-from common.status_code import HTTP_OK
+from common.error import HTTP_OK
 from tantan.settings import DEBUG
 
 

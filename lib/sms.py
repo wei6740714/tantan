@@ -1,11 +1,12 @@
 import hashlib
 import json
 from random import randrange
-from time import time, sleep
+from time import time
 
 import requests
 from django.core.cache import cache
 
+from common import error
 from tantan.config import WY_SMS_APPSECRET, WY_SMS_APPKEY
 from worker import call_by_worker
 
@@ -45,7 +46,7 @@ def send_msm(phonenum):
 
     status, verify_code = json_result['code'],json_result['obj']
     if not status == 200:
-        return
+        raise error.UserSmsSendFail()
 
     cache.set('verify_code' + phonenum, verify_code, timeout=60*60 * 24*5)
 

@@ -2,7 +2,7 @@
 from django.http import HttpRequest
 
 # Create your views here.
-from common import status_code
+from common import error
 from lib.http import render_json
 from lib.sms import send_verify_code, check_verify_code
 from user.logic import save_avatar_to_location, save_avatar_to_remote
@@ -15,7 +15,8 @@ def get_verify_code(request:HttpRequest):
 
     '''验证码'''
     phonenum=request.GET.get('phonenum')
-    return render_json(None) if send_verify_code(phonenum) else render_json(None,status_code.USER_SMS_SEND_FAIL)
+    send_verify_code(phonenum)
+    return render_json(None)
 
 
 
@@ -26,7 +27,7 @@ def login(request:HttpRequest):
     verify_code=request.POST.get('verify_code')
     # 短信服务成功了,这里先忽略,判断
     if not check_verify_code(phonenum,verify_code):
-        return render_json(None,status_code.USER_VERIFY_FAIL)
+        raise error.UserVerifyFail()
 
     default_data={
         'nickname':phonenum,
@@ -73,6 +74,6 @@ def modify_user(request:HttpRequest):
     '''modify user info'''
     user_form=UserForm(request.POST)
     if not user_form.is_valid():
-        return render_json(None,status_code.HTTP_BAD)
+        raise error.UserHttpBad()
 
     return render_json(user_form.cleaned_data)

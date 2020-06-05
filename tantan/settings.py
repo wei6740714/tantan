@@ -42,8 +42,10 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
-    'common.middleware.MiddlewareAuth',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'common.middleware.MiddlewareAuth',
+    'common.middleware.MiddlewareException',
+
 ]
 
 ROOT_URLCONF = 'tantan.urls'
