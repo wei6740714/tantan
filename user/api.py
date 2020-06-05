@@ -7,7 +7,7 @@ from lib.http import render_json
 from lib.sms import send_verify_code, check_verify_code
 from user.logic import save_avatar_to_location, save_avatar_to_remote
 from user.models import User
-from user.models.user_model import UserForm
+from user.models import UserForm
 from worker import sendmail
 
 
