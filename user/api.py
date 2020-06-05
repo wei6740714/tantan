@@ -7,8 +7,8 @@ from lib.http import render_json
 from lib.sms import send_verify_code, check_verify_code
 from user.logic import save_avatar_to_location, save_avatar_to_remote
 from user.models import User
-from user.models.user_model import UserForm
-from worker import sendmail
+from user.models import UserForm
+
 
 
 def get_verify_code(request:HttpRequest):
@@ -17,13 +17,13 @@ def get_verify_code(request:HttpRequest):
     phonenum=request.GET.get('phonenum')
     return render_json(None) if send_verify_code(phonenum) else render_json(None,status_code.USER_SMS_SEND_FAIL)
 
-    return render_json(None,status_code.USER_SMS_SEND_FAIL)
+
 
 
 def login(request:HttpRequest):
+    '''login operate'''
     phonenum=request.POST.get('phonenum')
     verify_code=request.POST.get('verify_code')
-    print(phonenum,verify_code,'******************')
     # 短信服务成功了,这里先忽略,判断
     if not check_verify_code(phonenum,verify_code):
         return render_json(None,status_code.USER_VERIFY_FAIL)
@@ -36,7 +36,6 @@ def login(request:HttpRequest):
 
     request.session['uid'] = user.pk
 
-
     attr_dict=user.to_dict(('birth_year','birth_month','birth_day'))
     attr_dict['age']=user.age
     return render_json(attr_dict)
@@ -45,10 +44,10 @@ def login(request:HttpRequest):
 
 
 def show_profile(request):
+    '''show profile detail'''
     user=request.user
     profile=user.profile
     profile.save()
-    print(profile.user)
 
     return render_json(profile.to_dict())
 
@@ -71,14 +70,9 @@ def upload_avatar(request:HttpRequest):
 
 
 def modify_user(request:HttpRequest):
-
+    '''modify user info'''
     user_form=UserForm(request.POST)
-
     if not user_form.is_valid():
-
-        # pprint(user_form.errors)
         return render_json(None,status_code.HTTP_BAD)
-
-    user=request.user
 
     return render_json(user_form.cleaned_data)
