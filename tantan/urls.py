@@ -15,15 +15,21 @@ Including another URLconf
 """
 from django.conf.urls import url
 from user import api as user_api
+from social import api as social_api
 
 urlpatterns = [
-    url(r'api/user/vcode$',user_api.get_verify_code),
-    url(r'api/user/login$', user_api.login),
+    # 用户应用
+    url(r'^api/user/vcode$',user_api.get_verify_code),
+    url(r'^api/user/login$', user_api.login),
+    url(r'^api/user/modify$', user_api.modify_user),
+    url(r'^api/user/profile/show$', user_api.show_profile),
+    url(r'^api/user/profile/modify$', user_api.modify_profile),
+    url(r'^api/user/avatar/upload$', user_api.upload_avatar),
 
-    url(r'api/user/modify$', user_api.modify_user),
-
-    url(r'api/user/profile/show$', user_api.show_profile),
-    url(r'api/user/profile/modify$', user_api.modify_profile),
-    url(r'api/user/avatar/upload$', user_api.upload_avatar),
-
+    #社交应用
+    url(r'^api/social/get_rec_list$',social_api.get_rec_list),
+    url(r'^api/social/like$',social_api.like),
+    url(r'^api/social/super_like$',social_api.super_like),
+    url(r'^api/social/dislike$',social_api.dislike),
+    url(r'^api/social/liked_people$',social_api.show_liked_people),
 ]

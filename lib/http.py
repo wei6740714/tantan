@@ -12,8 +12,8 @@ def render_json(data,code=HTTP_OK):
         'code':code,
     }
     if DEBUG:
-        json_str = json.dumps(result,indent=4,ensure_ascii=True)
+        json_str = json.dumps(result,indent=4,ensure_ascii=False)
     else:
-        json_str=json.dumps(result,separators=(',',':',))
+        json_str=json.dumps(result,separators=(',',':',),ensure_ascii=False)
     return HttpResponse(json_str)
 
