@@ -33,8 +33,11 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.messages',
     'django.contrib.staticfiles',
     'user',
+    'social',
+    'vip',
 ]
 
 MIDDLEWARE = [
@@ -42,6 +45,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'common.middleware.MiddlewareAuth',
     'common.middleware.MiddlewareException',
@@ -59,6 +63,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
