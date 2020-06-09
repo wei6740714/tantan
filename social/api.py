@@ -5,7 +5,9 @@ from lib.http import render_json
 from social.logic import get_age_rec_list
 from social.models import Swiper, Friends
 from user.models import User
+from vip.logic import expected_permission
 
+@expected_permission(name='get_rec_list')
 def get_rec_list(request):
     '''获取推荐列表'''
     # 根据年龄五岁之内的异性
@@ -14,7 +16,7 @@ def get_rec_list(request):
     data = [user.to_dict() for user in users]
     return render_json(data)
 
-
+@expected_permission(name='like')
 def like(request):
     '''喜欢'''
     strange_id = request.POST.get('strange_id')
@@ -23,7 +25,7 @@ def like(request):
     Friends.make_friend(request.user.id, strange_id)
     return render_json(None)
 
-
+@expected_permission(name='super_like')
 def super_like(request):
     '''超级喜欢'''
     strange_id = request.POST.get('strange_id')
@@ -33,14 +35,14 @@ def super_like(request):
 
     return render_json(None)
 
-
+@expected_permission(name='dislike')
 def dislike(request):
     '''不喜欢'''
     strange_id = request.POST.get('strange_id')
     Swiper.dislike(request.user.id, strange_id)
     return render_json(None)
 
-
+@expected_permission(name='show_liked_people')
 def show_liked_people(request):
     '''查看喜欢过的人'''
     user=request.user

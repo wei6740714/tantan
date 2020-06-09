@@ -46,7 +46,7 @@ class Swiper(models.Model):
         user_id = user_id
         stranger_id = strange_id
         flag = 'dislike'
-        cls.objects.create(
+        cls.objects.get_or_create(
             user_id=user_id,
             stranger_id=stranger_id,
             flag=flag,
