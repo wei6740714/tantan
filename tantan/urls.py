@@ -1,3 +1,4 @@
+
 """tantan URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -36,3 +37,5 @@ urlpatterns = [
 
     url(r'api/vip/vip_permissions$',vip_api.show_vip_permissions),
 ]
+
+
