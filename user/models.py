@@ -53,6 +53,8 @@ class User(models.Model, MixinModel):
         return self._profile
 
 
+
+
 class UserForm(forms.Form):
     SEX = (
         ('男性', '男性'),
