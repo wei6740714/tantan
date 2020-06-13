@@ -2,6 +2,13 @@
 import os
 import sys
 
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> 51434351d03eef12202b428265949b72c76c29a7
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tantan.settings")
     try:
