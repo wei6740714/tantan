@@ -14,26 +14,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-
-from social import api as social_api
 from user import api as user_api
-from vip import api as vip_api
+from social import api as social_api
 
 urlpatterns = [
-    url(r'api/user/vcode$',user_api.get_verify_code),
-    url(r'api/user/login$', user_api.login),
+    # 用户应用
+    url(r'^api/user/vcode$',user_api.get_verify_code),
+    url(r'^api/user/login$', user_api.login),
+    url(r'^api/user/modify$', user_api.modify_user),
+    url(r'^api/user/profile/show$', user_api.show_profile),
+    url(r'^api/user/profile/modify$', user_api.modify_profile),
+    url(r'^api/user/avatar/upload$', user_api.upload_avatar),
 
-    url(r'api/user/modify$', user_api.modify_user),
-    url(r'api/user/profile/show$', user_api.show_profile),
-    url(r'api/user/profile/modify$', user_api.modify_profile),
-    url(r'api/user/avatar/upload$', user_api.upload_avatar),
-
-    url(r'api/social/rec_list$',social_api.get_rec_list),
-    url(r'api/social/like$',social_api.like),
-    url(r'api/social/super_like$',social_api.super_like),
-    url(r'api/social/dislike$',social_api.dislike),
-    url(r'api/social/liked_people$',social_api.show_liked_people),
-
-    url(r'api/vip/vip_permissions$',vip_api.show_vip_permissions),
-
+    #社交应用
+    url(r'^api/social/get_rec_list$',social_api.get_rec_list),
+    url(r'^api/social/like$',social_api.like),
+    url(r'^api/social/super_like$',social_api.super_like),
+    url(r'^api/social/dislike$',social_api.dislike),
+    url(r'^api/social/liked_people$',social_api.show_liked_people),
 ]

@@ -3,7 +3,7 @@ from django.utils.deprecation import MiddlewareMixin
 from kombu.utils import json
 
 from common import error
-from common.error import UserExceptionBase, VipExceptedError
+from common.error import UserExceptionBase
 from lib.http import render_json
 from user.models import User
 
@@ -33,7 +33,6 @@ class MiddlewareException(MiddlewareMixin):
         if isinstance(exception,UserExceptionBase):
             return render_json(None,code=exception.code)
 
-        if isinstance(exception,VipExceptedError):
-            return render_json(None, code=exception.code)
+
 
 
