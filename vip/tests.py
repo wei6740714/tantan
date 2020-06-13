@@ -5,6 +5,8 @@ from django.test import TestCase
 
 import logging
 
+from user.models import User
+
 logger = logging.getLogger('mdjango')
 
 
@@ -19,3 +21,6 @@ class TestLogger(TestCase):
         logger.critical('My Critical')
         logger.info('My Info2')
 
+class TestCache(TestCase):
+    def test_cache(self):
+        user=User.objects.get(id=1)
