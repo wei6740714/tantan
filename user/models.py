@@ -39,6 +39,7 @@ class User(models.Model, MixinModel):
     avatar = models.CharField(max_length=256, verbose_name='形象')
     location = models.CharField(max_length=16, verbose_name='常居地')
 
+    vip_id=models.IntegerField(default=0,verbose_name='Vip ID')
     @property
     def age(self):
         delta = date.today() - date(year=self.birth_year, month=self.birth_month, day=self.birth_day)
@@ -50,6 +51,8 @@ class User(models.Model, MixinModel):
             self._profile, _ = Profile.objects.get_or_create(pk=self.id)
         self._profile: Profile
         return self._profile
+
+
 
 
 class UserForm(forms.Form):
