@@ -65,3 +65,4 @@ def create_robots(num: int):
 if __name__ == '__main__':
     create_robots(100)
 
+
