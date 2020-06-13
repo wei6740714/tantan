@@ -65,11 +65,4 @@ def create_robots(num: int):
 if __name__ == '__main__':
     create_robots(100)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> e2e133a5af88c4d458ec2508fb6ef7548b636363
-=======
-
->>>>>>> e2e133a5af88c4d458ec2508fb6ef7548b636363
