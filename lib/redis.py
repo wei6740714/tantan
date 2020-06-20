@@ -81,3 +81,5 @@ class Pipeline(Redis,_Pipeline):
         data=super()._execute_transaction(connection, commands, raise_on_error)
         return self.unpickle_data(data)
 
+
+rds=Redis(**_Redis)
