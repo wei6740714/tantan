@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from lib.http import render_json
-from social.logic import get_age_rec_list
+from social.logic import get_age_rec_list, change_rand_list, get_rand_list
 from social.models import Swiper, Friends
 from user.models import User
 from vip.logic import expected_permission
@@ -23,6 +23,7 @@ def like(request):
 
     Swiper.like(request.user.id, strange_id)
     Friends.make_friend(request.user.id, strange_id)
+    change_rand_list('like',strange_id)
     return render_json(None)
 
 @expected_permission(name='super_like')
@@ -33,6 +34,7 @@ def super_like(request):
     Swiper.superlike(request.user.id, strange_id)
     Friends.make_friend(request.user.id, strange_id)
 
+    change_rand_list('super_like', strange_id)
     return render_json(None)
 
 @expected_permission(name='dislike')
@@ -40,6 +42,8 @@ def dislike(request):
     '''不喜欢'''
     strange_id = request.POST.get('strange_id')
     Swiper.dislike(request.user.id, strange_id)
+
+    change_rand_list('dislike', strange_id)
     return render_json(None)
 
 @expected_permission(name='show_liked_people')
@@ -51,5 +55,10 @@ def show_liked_people(request):
     users=User.objects.filter(pk__in=like_ids)
     data=[user.to_dict() for user in users]
 
-
     return render_json(data)
+
+
+def show_rank_list(request):
+    top_list=get_rand_list(num=10)
+
+    return render_json(top_list)

@@ -1,28 +1,32 @@
-from django.http import HttpResponse
+
 from django.utils.deprecation import MiddlewareMixin
-from kombu.utils import json
+
 
 from common import error
-from common.error import UserExceptionBase, VipExceptedError
+from common.error import UserExceptionBase, VipExceptedError, UserNotLogin, UserDoesNotExist
 from lib.http import render_json
 from user.models import User
 
 
 class MiddlewareAuth(MiddlewareMixin):
     white_list=[
-        'api/user/vcode'
+        'api/user/vcode',
         'api/user/login'
     ]
     def process_request(self,request):
+        if request.method=='GET':
+            return None
         if request.path in self.white_list:
             return None
         uid=request.session.get('uid')
         if not uid:
             return render_json(None, error.USER_NOT_LOGIN)
+            # raise UserNotLogin('not login')
         try:
             user=User.objects.get(pk=uid)
         except User.DoesNotExist as e:
             return render_json(None, error.USER_DOES_NOT_EXIST)
+            # raise UserDoesNotExist('does not exist')
         request.user=user
         return None
 

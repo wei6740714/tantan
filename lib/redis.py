@@ -3,6 +3,13 @@ from redis import Redis as _Redis
 
 from pickle import dumps, loads
 from redis.client import Pipeline as _Pipeline
+
+def is_int(num):
+    return num.lstrip("+-").strip("0123456789").strip() == ""
+def is_float(num):
+    return num.lstrip("+-").strip("0123456789.").strip() == ""
+
+
 REDIS = {
     'host': '127.0.0.1',
     'port': 6379,
@@ -16,7 +23,7 @@ class Redis(_Redis):
     dump_flag = b'ed32980f05054ca4b680e9656d6ea661'
     read_operator = [
         'GET', 'HGET', 'HMGET',
-        'HEXISTS', 'KEYS', 'HLEN',
+        'HEXISTS', 'KEYS', 'HLEN','HKEYS',
         'HGETALL', 'HVALS', 'HSTRLEN',
         'PUBLISH', 'PUBSUB CHANNELS', 'PUBSUB NUMPAT', 'PUBSUB NUMSUB',
     ]
@@ -44,7 +51,12 @@ class Redis(_Redis):
         if isinstance(data, (tuple, list)):
             return [self.unpickle_data(item) for item in data]
 
-        return data.decode()
+        data=data.decode()
+        if is_int(data):
+            return int(data)
+        if is_float(data):
+            return float(data)
+        return data
 
     def execute_command(self, *args, **options):
         '''执行命令'''
@@ -81,5 +93,4 @@ class Pipeline(Redis,_Pipeline):
         data=super()._execute_transaction(connection, commands, raise_on_error)
         return self.unpickle_data(data)
 
-
-rds=Redis(**_Redis)
+rds=Redis(**REDIS)

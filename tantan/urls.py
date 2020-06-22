@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'api/social/super_like$',social_api.super_like),
     url(r'api/social/dislike$',social_api.dislike),
     url(r'api/social/liked_people$',social_api.show_liked_people),
+    url(r'api/social/rank_list$',social_api.show_rank_list),
 
     url(r'api/vip/vip_permissions$',vip_api.show_vip_permissions),
     ]

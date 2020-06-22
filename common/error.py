@@ -1,5 +1,7 @@
 
 HTTP_OK=0
+USER_NOT_LOGIN=200
+USER_DOES_NOT_EXIST=201
 
 class UserExceptionBase(Exception):
     code=0
